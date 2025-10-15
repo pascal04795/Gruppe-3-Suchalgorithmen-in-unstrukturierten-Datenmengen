@@ -1,0 +1,7 @@
+🔗Nützliche Links:
+
+Notizen/ Brainstorming Link: https://1drv.ms/o/c/0dd9a2d43284afef/El9i6jopQ1NJoFhz9GD1OHEBLiSaPP6xE--zSsyMCQB5eg?e=RQYnvy
+
+PowerPoint Präsentation Link: https://1drv.ms/p/c/0dd9a2d43284afef/EQIjMzR4vbJPq4cVSaSY5QgBhYFLU-rmYf9i70PMRODR4Q?e=8hwROz
+
+LaTeX Ausarbeitung Link: https://de.overleaf.com/4826753451msrnyxwpmswc#e658df
