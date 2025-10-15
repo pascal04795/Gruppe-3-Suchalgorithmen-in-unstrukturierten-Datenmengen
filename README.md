@@ -6,10 +6,9 @@ PowerPoint Präsentation Link: https://1drv.ms/p/c/0dd9a2d43284afef/EQIjMzR4vbJP
 
 LaTeX Ausarbeitung Link: https://de.overleaf.com/4826753451msrnyxwpmswc#e658df
 
+<br></br>
 
-
-
-**Anforderungen:** <br></br>
+**Anforderungen:** 
 
 
 - Lineare Suche 
