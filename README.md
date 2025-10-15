@@ -8,7 +8,7 @@ LaTeX Ausarbeitung Link: https://de.overleaf.com/4826753451msrnyxwpmswc#e658df
 
 <br></br>
 
-<u>**Anforderungen:**</u>
+**<u>Anforderungen:</u>**
 
 
 - Lineare Suche 
