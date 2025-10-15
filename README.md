@@ -1,4 +1,4 @@
-<u>🔗Nützliche Links:</u>
+###🔗Nützliche Links:
 
 Anforderungen/ Aufteilung /... Link: https://1drv.ms/o/c/0dd9a2d43284afef/El9i6jopQ1NJoFhz9GD1OHEBLiSaPP6xE--zSsyMCQB5eg?e=RQYnvy
 
@@ -8,7 +8,7 @@ LaTeX Ausarbeitung Link: https://de.overleaf.com/4826753451msrnyxwpmswc#e658df
 
 <br></br>
 
-**<u>Anforderungen:</u>**
+**Anforderungen:**
 
 
 - Lineare Suche 
