@@ -2,7 +2,7 @@
 # Themen: Tiere, Technologie, Sport, Gesellschaft, Wissenschaft
 # Erstellt mit ChatGPT (16.10.2025)
 
-documents = [
+data = [
     {"id": "D1", "text": "Katzen sind beliebte Haustiere auf der ganzen Welt."},
     {"id": "D2", "text": "Hunde gelten als treue Begleiter des Menschen."},
     {"id": "D3", "text": "Tiger leben in den Wäldern Asiens."},
