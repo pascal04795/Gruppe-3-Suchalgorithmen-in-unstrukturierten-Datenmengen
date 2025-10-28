@@ -1,3 +1,7 @@
+#1. Virtuelle Umgebung (.venv) erstellen
+#2. Virtuelle Umgebung aktivieren (.venv\Scripts\activate)
+#3. Installieren, der Bibliothek (pip install datasets)
+#4. ...
 import time
 from datasets import load_dataset
 
@@ -33,5 +37,6 @@ for r in results:
     print(f"Suchwort: {r['query']}")
     print(f"  Treffer: {r['num_matches']}")
     print("-" * 30)
+
 
 print(f"Gesamtlaufzeit für alle Suchen: {total_duration:.4f} Sekunden")
