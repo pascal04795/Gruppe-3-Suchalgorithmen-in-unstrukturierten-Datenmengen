@@ -1,0 +1,5 @@
+Für Lineare Suche:
+1. Virtuelle Umgebung (.venv) erstellen
+2. Virtuelle Umgebung aktivieren (.venv\Scripts\activate)
+3. Installieren, der Bibliothek (pip install datasets)
+4. ...
