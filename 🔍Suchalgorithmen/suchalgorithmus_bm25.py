@@ -17,7 +17,7 @@ from datasets import load_dataset
 
 betterThanScore = 0.0
 
-dataset = load_dataset("cc_news", split="train[:50%]")
+dataset = load_dataset("cc_news", split="train[:10%]")
 texts = [item['text'] for item in dataset if item['text'] and item['text'].strip()]
 
 def _tokenize(text: str) -> List[str]:
@@ -152,3 +152,4 @@ if __name__ == "__main__":
     print(f"\nIndexierungszeit (BM25-Konstruktion): {index_duration:.4f} s")
     print(f"Gesamte Suchzeit (alle Queries): {total_query_time:.4f} s")
     print(f"Gesamtzeit (inkl. Indexierung): {index_duration + total_query_time:.4f} s")
+
