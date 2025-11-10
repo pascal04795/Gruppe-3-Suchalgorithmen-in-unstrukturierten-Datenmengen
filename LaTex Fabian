@@ -1,0 +1,99 @@
+\section{Probabilistic-Search-Algorithmen}
+
+In diesem Kapitel werden Probabilistic-Search-Algorithmen vorgestellt und erläutert. Nach einer allgemeinen Einführung in die theoretischen Grundlagen probabilistischer Informationssuche (Kapitel~\ref{sec:einführung}) wird das grundlegende Wahrscheinlichkeitsmodell zur Relevanzbewertung von Dokumenten vorgestellt (Kapitel~\ref{sec:wahrscheinlichkeitsmodell}). Anschließend wird das Okapi-BM25-Modell als zentraler Vertreter probabilistischer Ranking-Verfahren im Detail beschrieben (Kapitel~\ref{sec:bm25}) und der Ablauf des Okapi-BM25-Modell aufgelistet (Kapitel~\ref{sec:ablauf}). Darauf folgt ein Vergleich mit klassischen, nicht-probabilistischen Suchverfahren (Kapitel~\ref{sec:vergleich}), bevor das Kapitel mit einer Analyse typischer Einsatzszenarien in der Praxis abschließt (Kapitel~\ref{sec:einsatzgebiete}).
+
+\subsection{Einführung in Probabilistic-Search-Algorithmen}
+\label{sec:einführung}
+
+Probabilistische Suchverfahren gehen von der Annahme aus, dass die Relevanz eines Dokuments für eine Suchanfrage nicht absolut, sondern nur mit einer bestimmten Wahrscheinlichkeit bestimmt werden kann. Im Gegensatz zu rein booleschen Suchmodellen, bei denen ein Dokument entweder als relevant oder nicht relevant klassifiziert wird, modellieren probabilistische Verfahren Relevanz als ein Kontinuum \citep{Manning2009}. Das bedeutet, dass Dokumente entsprechend ihrer geschätzten Relevanzwahrscheinlichkeit in eine Rangfolge gebracht werden.
+
+Grundidee ist das sogenannte \textit{Probability Ranking Principle} (PRP) \citep{Robertson1977}: Ein Informationssystem sollte Dokumente so sortieren, dass die Wahrscheinlichkeit ihrer Relevanz in absteigender Reihenfolge angeordnet ist. Dadurch wird nicht nur die reine Trefferquote beeinflusst, sondern auch die Reihenfolge, in der Ergebnisse dem Nutzer präsentiert werden. Dies ist insbesondere bei großen Textkorpora entscheidend, in denen eine lineare Durchsicht aller Daten weder praktikabel noch effizient ist.
+
+Probabilistische Modelle setzen voraus, dass die Relevanz eines Dokuments von messbaren Eigenschaften (z.\,B. Wortfrequenzen, Dokumentlänge, Term-Verteilung) abhängig ist. Für die Anwendung probabilistischer Suchverfahren müssen Textdaten zunächst in eine numerische Repräsentation überführt werden. Rohtext kann nicht direkt verarbeitet werden, da Modelle wie BM25 statistische Häufigkeiten von Begriffen analysieren. Daher erfolgt eine Vorverarbeitung, bei der die Texte zunächst in einzelne Terme zerlegt (Tokenisierung), bereinigt (z.\,B. Kleinschreibung, Entfernen von Sonderzeichen) und häufig um sprachliche Normalisierungen ergänzt werden (z.\,B. Stemming oder Lemmatisierung). Anschließend werden die Terme in einem sogenannten Vokabular organisiert und die Dokumente als Vektoren beschrieben, deren Dimensionen die relativen oder absoluten Häufigkeiten der Begriffe widerspiegeln. Erst diese vektorielle Darstellung ermöglicht die Berechnung von Relevanzwahrscheinlichkeiten und den Vergleich zwischen Dokumenten und Suchanfragen.
+
+\subsection{Wahrscheinlichkeitsmodell zur Relevanzbewertung}
+\label{sec:wahrscheinlichkeitsmodell}
+
+Das klassische probabilistische Modell basiert auf der Frage, wie hoch die Wahrscheinlichkeit ist, dass ein Dokument \( d \) für eine Anfrage \( q \) relevant ist. Formal wird versucht, die Relevanzwahrscheinlichkeit \( P(\text{relevant} \mid d,q) \) abzuschätzen.
+
+Da diese Wahrscheinlichkeit nicht direkt bekannt ist, wird sie auf Basis statistischer Eigenschaften angenähert. Eine zentrale Rolle spielt dabei die Häufigkeit, mit der Suchbegriffe im Dokument vorkommen, sowie deren relative Bedeutung innerhalb des Korpus.
+
+Im einfachsten Fall führt dies zu einem Modell, bei dem Dokumente höher bewertet werden, wenn sie die Suchbegriffe häufig enthalten und gleichzeitig Begriffe, die im gesamten Korpus sehr häufig vorkommen, weniger stark gewichtet werden. Dieser Gedanke bildet die Grundlage für moderne Ranking-Verfahren.
+
+\subsection{Das BM25-Modell}
+\label{sec:bm25}
+
+BM25 (\textit{Best Matching 25}) ist ein probabilistisches Ranking-Verfahren, das aus dem Okapi-Projekt hervorgegangen ist \citep{Robertson1995}. Es stellt eine Weiterentwicklung des klassischen probabilistischen Modells dar und wird heute in zahlreichen Suchsystemen eingesetzt, darunter Elasticsearch, Apache Lucene und diverse wissenschaftliche Retrieval-Werkzeuge.
+
+BM25 bewertet Dokumente anhand dreier zentraler Faktoren:
+
+\begin{itemize}
+    \item \textbf{Termfrequenz (TF):} Wie oft ein Suchbegriff im Dokument vorkommt.
+    \item \textbf{Inverse Dokumenthäufigkeit (IDF):} Wie aussagekräftig ein Suchbegriff im gesamten Korpus ist.
+    \item \textbf{Dokumentlänge:} Längere Dokumente neigen dazu, Begriffe häufiger zu enthalten; BM25 kompensiert dies über eine Längen-Normalisierung.
+\end{itemize}
+
+Die Gewichtung erfolgt mittels folgender Kernformel:
+
+\begin{equation}
+\text{score}(d,q) = \sum_{t \in q} \text{IDF}(t) \cdot \frac{tf(t,d) \cdot (k_1 + 1)}{tf(t,d) + k_1 \cdot \left(1 - b + b \cdot \frac{|d|}{\text{avgdl}}\right)}
+\end{equation}
+
+Dabei sind \( k_1 \) und \( b \) frei wählbare Parameter, die die Stärke der Termfrequenz- bzw. Längennormalisierung steuern. In der Praxis haben sich Werte von \( k_1 \approx 1.2 \) bis \( 2.0 \) und \( b \approx 0.75 \) bewährt.
+
+BM25 hat sich aufgrund seiner Robustheit gegenüber Rauschen, seiner Interpretierbarkeit und seiner guten Leistung auf realen Textdatensätzen als Standardverfahren etabliert.
+
+\subsection{Ablauf eines Probabilistic-Search-Verfahrens}
+\label{sec:ablauf}
+
+Der Ablauf eines probabilistischen Suchverfahrens folgt einem festen, modellbasierten Prozess, der sowohl die Vorbereitung der Dokumente (Indexierung) als auch die Bewertung während der Suchanfrage umfasst. Im Folgenden wird der Ablauf exemplarisch anhand des BM25-Modells beschrieben:
+
+\begin{enumerate}
+    \item \textbf{Vorverarbeitung der Textdaten} \\
+    Zunächst werden die Dokumente in eine analysierbare Form überführt. Dazu zählen:
+    \begin{itemize}
+        \item Tokenisierung: Zerlegung des Textes in einzelne Wörter.
+        \item Normalisierung: Kleinschreibung, Entfernen von Satzzeichen.
+        \item Stopword-Filterung: Entfernen sehr häufiger, wenig informativer Wörter (z.\,B. „und“, „ist“).
+        \item Optional: Lemmatisierung oder Stemming, um Wortformen zu vereinheitlichen.
+    \end{itemize}
+    Ziel dieses Schrittes ist es, alle Dokumente in eine konsistente, standardisierte Textform zu überführen.
+
+    \item \textbf{Indexierung und Berechnung statistischer Kenngrößen} \\
+    Anschließend wird ein \textit{Inverted Index} aufgebaut, der speichert, in welchen Dokumenten ein bestimmter Begriff vorkommt. Zusätzlich werden folgende Werte berechnet:
+    \begin{itemize}
+        \item Termfrequenz (TF): Anzahl der Vorkommen eines Begriffs im Dokument.
+        \item Dokumentfrequenz (DF): Anzahl der Dokumente, in denen der Begriff vorkommt.
+        \item Inverse Dokumentfrequenz (IDF): Bewertet die Relevanz eines Begriffs im gesamten Korpus.
+        \item Dokumentlängenstatistik: Durchschnittliche Dokumentlänge im Korpus (\(\text{avgdl}\)) und Länge jedes einzelnen Dokuments.
+    \end{itemize}
+    Diese Werte bilden die Grundlage für die spätere Relevanzberechnung.
+
+    \item \textbf{Verarbeitung der Suchanfrage} \\
+    Eine Suchanfrage wird nach denselben Regeln wie die Dokumente vorverarbeitet (Tokenisierung, Normalisierung, Stopword-Filterung). Das Ergebnis ist eine Menge von Suchbegriffen, die im Ranking berücksichtigt werden.
+
+    \item \textbf{Berechnung der Relevanz-Scores mittels BM25} \\
+    Für jedes Dokument, das mindestens einen Suchbegriff enthält, wird ein Score berechnet. Die Gewichtung erfolgt über die BM25-Formel, bei der folgende Effekte erzielt werden:
+    \begin{itemize}
+        \item Häufig vorkommende Suchbegriffe erhöhen den Score, jedoch mit abnehmendem Grenznutzen.
+        \item Sehr häufige Begriffe im gesamten Korpus werden abgeschwächt (durch IDF).
+        \item Längere Dokumente werden über die Längennormalisierung kompensiert.
+    \end{itemize}
+    Ziel ist es, jedem Dokument eine numerische Relevanzwahrscheinlichkeit zuzuordnen.
+
+    \item \textbf{Sortierung und Ausgabe} \\
+    Die Dokumente werden nach ihrem ermittelten Score absteigend sortiert. Das Ergebnis ist eine rangierte Trefferliste, bei der die wahrscheinlich relevantesten Dokumente an oberster Stelle stehen. Eine nachträgliche Filterung oder Limitierung (z.\,B. „Top 20 Ergebnisse“) ist üblich.
+\end{enumerate}
+
+Der Ablauf ist deterministisch und reproduzierbar. Änderungen am Ranking ergeben sich primär aus Wahl der Parameter \( k_1 \), \( b \) sowie der Vorverarbeitungsschritte. Für große Datensätze erfolgt die Berechnung optimiert über Suchindex-Frameworks oder spezialisierte Datenbanksysteme, um die nötigen Berechnungen effizient zu gestalten.
+
+\subsection{Vergleich zu anderen Suchverfahren}
+\label{sec:vergleich}
+
+Im Gegensatz zur linearen oder booleschen Suche liefert BM25 keine binären Trefferlisten, sondern eine geordnete Ranking-Liste. Im Unterschied zu Clustering-basierten Ansätzen, die den Suchraum reduzieren, konzentriert sich BM25 darauf, die Relevanzbewertung selbst zu optimieren. Beide Methoden können jedoch kombiniert werden: Clustering reduziert den Suchraum, während BM25 innerhalb der verbleibenden Dokumente die finale Rangordnung bestimmt.
+
+\subsection{Praktische Einsatzgebiete}
+\label{sec:einsatzgebiete}
+
+Probabilistische Suchmodelle sind heute der Standard in Suchmaschinen, digitalen Archiven und wissenschaftlichen Datenbanken. Sie bieten eine kontrollierbare Balance zwischen Genauigkeit, Robustheit und Rechenaufwand. Insbesondere bei unstrukturierten Textdaten, wie Nachrichtenartikeln, wissenschaftlichen Publikationen oder Foreneinträgen, stellt BM25 eine etablierte Grundlage für effiziente und qualitativ hochwertige Suchergebnisse dar.
+
