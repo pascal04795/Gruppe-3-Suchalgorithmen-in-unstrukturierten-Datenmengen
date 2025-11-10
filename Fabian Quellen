@@ -1,0 +1,44 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Literaturverzeichnis sollte als separate Datei "literatur.bib" eingebunden werden.
+% Beispiel-Einträge für BibTeX:
+
+% @book{Manning2009,
+%   author    = {Christopher D. Manning and Prabhakar Raghavan and Hinrich Schütze},
+%   title     = {Introduction to Information Retrieval},
+%   year      = {2009},
+%   publisher = {Cambridge University Press},
+%   url       = {https://nlp.stanford.edu/IR-book/}
+% }
+
+% @inproceedings{Robertson1994,
+%   author    = {Stephen E. Robertson and Stephen Walker},
+%   title     = {Some simple effective approximations to the 2–Poisson model for probabilistic weighted retrieval},
+%   booktitle = {Proceedings of SIGIR},
+%   year      = {1994},
+%   url       = {https://www.staff.city.ac.uk/~sbrp622/papers/robertson_walker_sigir94.pdf}
+% }
+
+% @article{Robertson1977,
+%   author  = {Stephen E. Robertson},
+%   title   = {The Probability Ranking Principle in IR},
+%   journal = {Journal of Documentation},
+%   year    = {1977},
+%   url     = {https://www.researchgate.net/publication/235253512_The_Probability_Ranking_Principle_in_IR}
+% }
+
+% @article{Robertson2009,
+%   author  = {Stephen Robertson and Hugo Zaragoza},
+%   title   = {The Probabilistic Relevance Framework: BM25 and Beyond},
+%   journal = {Foundations and Trends in Information Retrieval},
+%   year    = {2009},
+%   doi     = {10.1561/1500000019}
+% }
+
+Wikipedia: Okapi BM25 
+https://en.wikipedia.org/wiki/Okapi_BM25 
+
+Scikit-Learn: Feature Extraction: Text and TF-IDF 
+https://scikit-learn.org/stable/modules/feature_extraction.html 
+
+Wikipedia: Vector Space Model 
+https://en.wikipedia.org/wiki/Vector_space_model 
